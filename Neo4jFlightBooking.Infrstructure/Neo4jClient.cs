@@ -2,7 +2,7 @@
 
 namespace Neo4jFlightBooking.Infrstructure
 {
-    public class Neo4jClient
+    public class Neo4jClient : IAsyncDisposable
     {
         private readonly IDriver _driver;
         private readonly IAsyncSession _session;
@@ -15,5 +15,10 @@ namespace Neo4jFlightBooking.Infrstructure
 
         public IAsyncSession Session => _session;
         public IDriver Driver => _driver;
+
+        public async ValueTask DisposeAsync()
+        {
+            await _session.CloseAsync();
+        }
     }
 }

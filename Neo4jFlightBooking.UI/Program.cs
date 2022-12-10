@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 string connection = builder.Configuration.GetValue<string>("Neo4jConnection");
-Neo4jClient client = new Neo4jClient(connection);
+var client = new Neo4jClient(connection);
 
 builder.Services.AddSingleton<Neo4jClient>(client);
 
