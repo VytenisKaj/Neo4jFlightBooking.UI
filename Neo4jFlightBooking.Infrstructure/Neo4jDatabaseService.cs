@@ -16,7 +16,6 @@ namespace Neo4jFlightBooking.Infrstructure
 
         /// <summary>
         /// Execute read list as an asynchronous operation.
-        /// Needs to be rewritten to not use deprecated methods
         /// </summary>
         public async Task<List<string>> ExecuteReadListAsync(string query, string returnObjectKey, IDictionary<string, object>? parameters = null)
         {
@@ -25,7 +24,6 @@ namespace Neo4jFlightBooking.Infrstructure
 
         /// <summary>
         /// Execute read dictionary as an asynchronous operation.
-        /// Needs to be rewritten to not use deprecated methods
         /// </summary>
         public async Task<List<Dictionary<string, object>>> ExecuteReadDictionaryAsync(string query, string returnObjectKey, IDictionary<string, object>? parameters = null)
         {
@@ -34,14 +32,13 @@ namespace Neo4jFlightBooking.Infrstructure
 
         /// <summary>
         /// Execute read scalar as an asynchronous operation.
-        /// Needs to be rewritten to not use deprecated methods
         /// </summary>
         public async Task<T> ExecuteReadScalarAsync<T>(string query, IDictionary<string, object>? parameters = null)
         {
 
-            parameters = parameters == null ? new Dictionary<string, object>() : parameters;
+            parameters ??= new Dictionary<string, object>();
 
-            var result = await Session.ReadTransactionAsync(async tx =>
+            var result = await Session.ExecuteReadAsync(async tx =>
             {
                 T scalar = default(T);
 
@@ -57,14 +54,13 @@ namespace Neo4jFlightBooking.Infrstructure
 
         /// <summary>
         /// Execute write transaction
-        /// Needs to be rewritten to not use deprecated methods
         /// </summary>
         public async Task<T> ExecuteWriteTransactionAsync<T>(string query, IDictionary<string, object>? parameters = null)
         {
 
-            parameters = parameters == null ? new Dictionary<string, object>() : parameters;
+            parameters ??= new Dictionary<string, object>();
 
-            var result = await Session.WriteTransactionAsync(async tx =>
+            var result = await Session.ExecuteWriteAsync(async tx =>
             {
                 T scalar = default(T);
 
@@ -81,14 +77,13 @@ namespace Neo4jFlightBooking.Infrstructure
 
         /// <summary>
         /// Execute read transaction as an asynchronous operation.
-        /// Needs to be rewritten to not use deprecated methods
         /// </summary>
         private async Task<List<T>> ExecuteReadTransactionAsync<T>(string query, string returnObjectKey, IDictionary<string, object>? parameters)
         {
 
-            parameters = parameters == null ? new Dictionary<string, object>() : parameters;
+            parameters ??= new Dictionary<string, object>();
 
-            var result = await Session.ReadTransactionAsync(async tx =>
+            var result = await Session.ExecuteReadAsync(async tx =>
             {
                 var data = new List<T>();
 
